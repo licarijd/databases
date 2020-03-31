@@ -1,0 +1,77 @@
+Advanced SQL
+
+
+Self Joins 
+
+There are cases where you may want to join a table to itself,
+eg. to find pairs of entries which have something in common.
+
+Example 
+
+create table residences (
+    id integer 
+        references students,
+    building text 
+        references buildings (name)
+    room text
+)
+
+We'd have a table that looks like this:
+
++--------+----------+------+
+|     id | building | room |
++========+==========+======+
+| 413001 |   Crosby |   10 |
+| 496747 |   Crosby |   19 |
+| 612413 |   Crosby |   31 |
+| 170267 | Dolliver |    1 |
+| 104131 | Dolliver |   14 |
+| 477801 | Dolliver |    8 |
+| 118199 | Kendrick |   1A |
+| 105540 | Kendrick |   3B |
++--------+----------+------+
+
+Say we wanted to find who is roommates (have the same building and room number).
+
+We could accomplish this with a self join.
+
+We could use this query:
+
+select a.id, b.id, a.building, a.room
+    from residences as a, residences as b
+ where a.building = b.building
+   and a.room = b.room
+   and a.id != b.id
+group by a.room
+order by a.building, a.room;
+
+To achieve the following result:
+
++--------+--------+----------+------+
+|     id |     id | building | room |
++========+========+==========+======+
+| 881256 | 413001 |   Crosby |   10 |
+| 741532 | 496747 |   Crosby |   19 |
+| 931027 | 612413 |   Crosby |   31 |
+| 958827 | 170267 | Dolliver |    1 |
+| 707536 | 104131 | Dolliver |   14 |
+| 505241 | 477801 | Dolliver |    8 |
+| 824292 | 118199 | Kendrick |   1A |
+| 231742 | 105540 | Kendrick |   3B |
++--------+--------+----------+------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

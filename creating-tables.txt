@@ -246,24 +246,3 @@ create table grades (
     course text references courses (id),
     grade text
 )
-
-
-Self Joins 
-
-There are cases where you may want to join a table to itself,
-eg. to find pairs of entries which have something in common.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
