@@ -153,5 +153,3 @@ SELECT
 
 Unique Identifiers called Primary Keys are given to rows in databases to distinguish entries.
 
-
-
