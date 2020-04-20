@@ -10,7 +10,15 @@ among the data.
 
 Rules for Normalized Designs
 
-1) Every row has the same number of columns (columns can be empty or zero)
+
+1) Every row has the same number of columns (columns can be empty or zero).
+
+- in practice, the database system won't literally let have different numbers of 
+rows and columns 
+
+- but, if we have columns that are sometimes empty (null) and sometimes not, or if
+we stuff multiple values into a single field, then we're breaking this rule 
+
 
 2) There is a unique key, and everything in a row says something about the key. Sometimes the key is more than one 
 column, or even all of them.
@@ -23,11 +31,16 @@ student_id      major
 4545455         CS
 3423423         Humanities
 
-Everything in a row other than the key, says something about the key.
+Everything in a row other than the key, says something about the key. In this case, 
+an ID is much better as a primary key than a name, since names may not always be 
+unique (there may be more than one person with a certain name).
 
-3) The non-key columns describe the key; they don't describe other non-key columns. For example, if in a customers table,
+3) Facts that don't relate to the key belong in different tables.
+
+The non-key columns describe the key; they don't describe other non-key columns. For example, if in a customers table,
 we have a 'spouse' column, and a 'spouse contact info' column, it would make sense for the spouse contact info to 
-be in a seperate table.
+be in a seperate table. Because 'spouse contact info' does not describe a customer, 
+it describes the spouse.
 
 4) Tables shouldn't imply relationships that don't exist.
 
