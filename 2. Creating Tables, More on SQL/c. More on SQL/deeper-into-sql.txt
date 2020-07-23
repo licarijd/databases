@@ -1,0 +1,23 @@
+The 'Create Table' Statement.
+
+The full syntax of 'create table' is complex. 
+
+The form we've been using is:
+
+create table <table-name> (<column type> [ <restriction> ], ... ) [ <row-restriction> ];
+
+We can add restrictions on column types and rows. Primary key restrictions
+and reference restrictions are some examples.
+
+Some more examples are in the Create Table Documentation:
+
+https://www.postgresql.org/docs/9.4/sql-createtable.html
+
+
+Other Subqueries from the PostgreSQL Documentation 
+
+Scalar Subqueries: https://www.postgresql.org/docs/9.4/sql-expressions.html#SQL-SYNTAX-SCALAR-SUBQUERIES
+
+Subquery Expressions: https://www.postgresql.org/docs/9.4/functions-subquery.html
+
+The FROM Clause: https://www.postgresql.org/docs/9.4/sql-select.html#SQL-FROM

@@ -1,0 +1,212 @@
+SQL
+
+
+Types in SQL
+
+
+Text and String Types
+
+
+text - A string of any length, like Python's str type. Values are written in single quotes.
+
+char (n) - A string of exactly n characters.
+
+varchar(n) - a string of up to n characters.
+
+
+Numeric Types 
+
+
+integer - An integer value
+
+double precision - A higher precision floating point value, accurate up to 15 decimal places.
+
+decimal - An exact decimal value.
+
+
+Date / Time
+
+date -  A calendar date, in the form '2014-04-13'. They require single quotes.
+
+time - a time of day.
+
+timestamp - a date and time together.
+
+
+The SELECT Clause
+
+Select is used to retrieve data from a database.
+
+
+The NOT Condition
+
+- used with SELECT
+
+
+Example 
+
+SELECT name from animals WHERE (NOT species = 'gorilla') AND (NOT name = 'max')
+
+SELECT name from animals WHERE species != 'gorilla' AND name != 'max'
+
+SELECT name from animals WHERE NOT (species = 'gorilla' OR name = 'max')
+
+All 3 statements yield the same result.
+
+
+Comparison Operators
+
+=, <, >, <=, >=, !=
+
+Example
+
+SELECT name FROM animals WHERE species = 'llama' AND birthdate <= '1995-01-01' AND birthdate <= '1998-12-31';
+
+
+LIMIT
+
+Used to select a limited number of records.
+
+select * from animals limit 10;
+
+
+OFFSET 
+
+Identifies the starting point to return rows from a result set. If the offset is n, the first n
+results are excluded.
+
+
+ORDER BY
+
+Sorts the result set in ascending order (by default).
+
+DESC is used to sort the records in descending order.
+
+
+GROUP BY
+
+Groups rows that have the same values.
+
+
+*** WHERE runs on tables before aggregation, so we can't use WHERE after GROUP BY
+
+
+Example 
+
+Where the following query 
+
+SELECT 'gender' FROM 'members';
+
+May yield the following results 
+
+Female
+Female
+Male
+Female
+Male
+Male
+Male
+Male
+Male
+
+The query
+
+SELECT `gender` FROM `members` GROUP BY `gender`;
+
+Would yield 
+
+Female
+Male
+
+This is because the GROUP BY clause grouped all the "male" members together, and returned a single value for the group.
+Same for females.
+
+
+Examples 
+
+
+1) SELECT with MAX 
+
+select max(name) from animals;
+
+
+2) SELECT with ORDER BY 
+
+select * from animals where species = 'orangutan' order by birthdate;
+
+
+3) SELECT with ORDER BY DESC
+
+select * from animals where species = 'orangutan' order by birthdate desc;
+
+
+4) SELECT with LIMIT and OFFSET
+
+select name, birthdate from animals order by name limit 10 offset 20;
+
+5) The number of each of the top 5 groups 
+
+select name, count (*) as num from animals
+group by name
+order by num desc
+limit 5;
+
+
+Adding Rows to a Table 
+
+To add a row:
+
+INSERT into <tablename> VALUES (42, 'info);
+
+If the new values aren't in the same order as the table's columns:
+
+INSERT into <tablename> (<column-1>, <column-2>) VALUES ('stuff', 42)
+
+
+Joining Tables 
+
+select <table-1>.attribute-1, <table-2>.attribute-2
+from <table-1> join <table-2>
+on <table-1>.target = <table-2>.target
+
+This can be written with less syntax 
+
+select <table-1>.attribute-1, <table-2>.attribute-2
+from <table-1>, <table-2>
+on <table-1>.target = <table-2>.target
+
+
+Restrictions on Result Tables - HAVING
+
+WHERE is a restriction on the source tables, and runs on tables before aggregation.
+So, we can't use WHERE after GROUP BY. 
+
+HAVING is a restriction on the result, after aggregation. So, we can use it after GROUP BY.
+
+Example
+
+select species, count (*) as num
+from animals group by species
+having num = 1;
+
+
+Listing Tables and Columns
+
+
+PostgreSQL
+
+/dt and /d tablename
+
+
+MySQL
+
+show tables and describe tablename
+
+
+SQLite
+
+.tables and .schema tablename 
+
+
+
+
