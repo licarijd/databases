@@ -153,3 +153,24 @@ SELECT
 
 Unique Identifiers called Primary Keys are given to rows in databases to distinguish entries.
 
+
+Minimal and Non-Minimal Candidate Keys
+
+A superkey is a set of attributes within a table whose values can be used to uniquely
+identify a tuple. A candidate key is a minimal set of attributes necessary to identify
+a tuple; this is also called a minimal superkey. Given an employee schema consisting
+of the attributes employeeID, name, job, and departmentID, where no value in the
+employeeID attribute is ever repeated, we could use the employeeID in combination
+with any or all other attributes of this table to uniquely identify a tuple in the
+table. Examples of superkeys in this schema would be:
+
+{employeeID, Name}, {employeeID, Name, job}, and {employeeID, Name, job, departmentID}
+ 
+The last example is known as trivial superkey, because it uses all attributes of this
+table to identify the tuple.
+
+In a real database we do not need values for all of those attributes to identify a
+tuple. We only need, per our example, the set {employeeID}.
+
+This is a minimal superkey—that is, a minimal set of attributes that
+can be used to identify a single tuple. employeeID is a candidate key.
