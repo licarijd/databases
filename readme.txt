@@ -174,3 +174,99 @@ tuple. We only need, per our example, the set {employeeID}.
 
 This is a minimal superkey—that is, a minimal set of attributes that
 can be used to identify a single tuple. employeeID is a candidate key.
+
+
+Data Independence 
+
+Data Independence is the idea that data should be kept seperate from the applications that 
+use the data.
+
+
+SQL Operators 
+
+SQL includes a data-definition component for describing relational schams
+
+** DDL - Data Definition Languages
+
+Some Operators:
+
+
+x = ANY (<subquery>)
+
+- is a boolean
+
+- true iff x equals at least one tuple in a subquery.
+
+
+x = ALL(<subquery>)
+
+- a boolean
+
+
+<value> = ALL(<subquery>)
+
+- a boolean
+
+
+<value> IN (<subquery>) 
+
+- a boolean
+
+- true iff the value is a member of the relation produced by the subquery
+
+
+<value> NOT IN (<subquery>)
+
+- boolean 
+
+
+EXISTS (<subquery>)
+
+- true iff the subquery result is not empty
+
+
+(<subquery>) UNION (<subquery>)
+
+- the union of two subqueries is a new set that contains all of the elements that are in at least
+one of the two subqueries
+
+
+(<subquery>) INTERSECT (<subquery>)
+
+- the intersection of two subqueries is a new set that contains all of the elements that are in both
+subqueries
+
+
+(<subquery>) EXCEPT (<subquery>)
+
+- EXCEPT returns distinct rows from the left input query that aren't output by the right input query
+
+
+SELECT DISTINCT 
+
+- will find all the different attributes corresponding to an entity (no duplicates)
+
+
+DELETE 
+
+delete from <relation> where <condition>
+
+
+UPDATE 
+
+update <relation> set <list of assignments> where <condition>
+
+
+We can also make default values:
+
+Create Table Drinkers (
+
+    addr char(50)
+        DEFAULT '123 Bar'
+);
+
+
+
+
+
+

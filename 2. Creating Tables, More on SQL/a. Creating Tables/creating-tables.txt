@@ -259,3 +259,15 @@ create table grades (
     course text references courses (id),
     grade text
 )
+
+
+Tuple Constraints 
+
+- conditions on the values of a tuple, independently of other tuples, eg. GPA > 3.0
+
+
+Domain Constraints
+
+- a condition on the domain of an attribute, eg.
+
+(GPA =< 4.0) and (GPA >= 0.0)

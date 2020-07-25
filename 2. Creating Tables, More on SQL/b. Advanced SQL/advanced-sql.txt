@@ -207,6 +207,8 @@ lot of columns. For example, you may have a table with 20 columns, and a lot
 of queries that only refer to 4 of them. So, you'd make a view with the 4 
 columns of interest. This would make the code a lot more clear.
 
+We can keep views in memory using Materialized Views.
+
 
 Updating and Deleting Rows in a View 
 
