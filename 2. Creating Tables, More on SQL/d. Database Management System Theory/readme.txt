@@ -488,3 +488,12 @@ value of course code and so, the dependency becomes trivial.
 
 
 ** More on Normalization: https://hackr.io/blog/dbms-normalization
+
+
+Lock Upgrades 
+
+Lock upgrades are when you switch from a shared to exclusive lock, and downgrades are when you switch 
+from an exclusive lock to a shared lock.
+
+Downgrades violate 2PL since the transaction gets reduced locking proveleges, so it may go on to acquire other 
+locks. ** This is still acceptable if the transaction didn't modify the object.
