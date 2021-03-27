@@ -13,6 +13,8 @@ table in order to retrieve the desired results. This process is called table-sca
 On the other hand, if you create indexes, the database goes to that index first and then retrieves the
 corresponding table records directly.
 
+** Think about hash tables. You can just look up something by index, rather than searching everything in the table one by one!
+
 There are two types of Indexes in SQL Server:
 
 1) Clustered Index
