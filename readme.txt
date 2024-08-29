@@ -151,6 +151,9 @@ SELECT
             health-impact.type
         WHERE causes-diabetes = 'YES'
 
+select tweet_id from Tweets
+where length(content) > 15
+
 Unique Identifiers called Primary Keys are given to rows in databases to distinguish entries.
 
 
@@ -266,7 +269,8 @@ Create Table Drinkers (
 );
 
 
-
+** In PostgreSQL, the GREATEST() function returns the largest value from the specified values and the LEAST()
+functions returns the smallest values from specified values. Both the functions take any number of arguments.
 
 
 

@@ -144,6 +144,9 @@ Inner joins only return rows that exist in both tables.
 
 Right joins are the same as left joins, but for the right table.
 
+A cross join returns the Cartesian product of rows from the tables in the join. In other words, it 
+combines each row from the first table with each row from the second table.
+
 
 Subqueries / Subselects
 
@@ -262,7 +265,124 @@ FROM OrderDetails;
 
 
 
+Window Functions
 
+A window function performs a calculation across a set of table rows that are somehow related to the current row.
+This is comparable to the type of calculation that can be done with an aggregate function.
+But unlike regular aggregate functions, use of a window function does not cause rows to become grouped into a single output row
+— the rows retain their separate identities. Behind the scenes, the window function is able to access more than just the current
+row of the query result.
+
+The most practical example of this is a running total:
+
+SELECT duration_seconds,
+       SUM(duration_seconds) OVER (ORDER BY start_time) AS running_total
+  FROM tutorial.dc_bikeshare_q1_2012
+
+The first part of the above aggregation, SUM(duration_seconds), looks a lot like any other aggregation. Adding OVER designates
+ it as a window function. You could read the above aggregation as "take the sum of duration_seconds over the entire result set,
+in order by start_time."
+
+If you'd like to narrow the window from the entire dataset to individual groups within the dataset, you can use PARTITION BY to do so:
+
+SELECT start_terminal,
+       duration_seconds,
+       SUM(duration_seconds) OVER
+         (PARTITION BY start_terminal ORDER BY start_time)
+         AS running_total
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+
+ The above query groups and orders the query by start_terminal. Within each value of start_terminal, it is ordered by start_time, and the running
+ total sums across the current row and all previous rows of duration_seconds. Scroll down until the start_terminal value changes and you will notice that 
+ running_total starts over. That's what happens when you group using PARTITION BY. In case you're still stumped by ORDER BY, it simply orders by the 
+ designated column(s) the same way the ORDER BY clause would, except that it treats every partition as separate. It also creates the running total—without
+  ORDER BY, each value will simply be a sum of all the duration_seconds values in its respective start_terminal. Try running the above query without ORDER BY to get an idea:
+
+SELECT start_terminal,
+       duration_seconds,
+       SUM(duration_seconds) OVER
+         (PARTITION BY start_terminal) AS start_terminal_total
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+The ORDER and PARTITION define what is referred to as the "window"—the ordered subset of data over which calculations are made.
+
+Note: You can't use window functions and standard aggregations in the same query. More specifically, you can't include window functions in a GROUP BY clause.
+
+
+In PostgreSQL, the LAG() and LEAD() function is a powerful window function that allows you to access a row that comes exactly before the
+ current row at a specified physical offset. This function is particularly useful for comparing the values of the current 
+ row with the previous row, enabling a range of analytical queries. Lead references the next row as opposed to the previous.
+
+Syntax
+The following shows the syntax of the LAG() function:
+
+LAG(expression [, offset [, default_value]]) 
+OVER (
+    [PARTITION BY partition_expression, ... ]
+    ORDER BY sort_expression [ASC | DESC], ...
+)
+
+Example 1: Comparing Current Year Sales with Previous Year Sales
+Let’s set up a new table for the demonstration named ‘sales‘:
+
+CREATE TABLE sales(
+    year SMALLINT CHECK(year > 0),
+    group_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY(year, group_id)
+);
+Insert some data into the ‘sales' table:
+
+INSERT INTO sales (year, group_id, amount) 
+VALUES
+    (2018, 1, 1474),
+    (2018, 2, 1787),
+    (2018, 3, 1760),
+    (2019, 1, 1915),
+    (2019, 2, 1911),
+    (2019, 3, 1118),
+    (2020, 1, 1646),
+    (2020, 2, 1975),
+    (2020, 3, 1516);
+To use the LAG() function to return the sales amount of the current year and the previous year, you can write the following query:
+
+Query:
+
+WITH cte AS (
+    SELECT 
+        year, 
+        SUM(amount) AS amount
+    FROM sales
+    GROUP BY year
+) 
+SELECT
+    year, 
+    amount,
+    LAG(amount, 1) OVER ( ORDER BY year) AS last_year_sales
+FROM cte;
+
+** A Common Table Expression (CTE) in SQL is a temporary result set that can be referenced within a SELECT, INSERT, UPDATE, or DELETE statement. CTEs are defined using the WITH keyword and allow you to create a named, reusable subquery within your SQL statement.
+ They provide a way to simplify complex queries and make them more readable.
+
+
+Casting in PostgreSQL with ::
+
+Besides the type CAST syntax, you can use the following syntax to convert a value of one type into another (cast :: operator):
+
+select ROUND(value::numeric, 2) from table_x; 
+ Weather.recordDate::date = yesterday_temp.prev_date::date + 1
+
+
+ Coalesce()
+
+ Coalesce handles null values in SQL. We can use the SQL COALESCE() function to replace the NULL value with a simple text:
+
+SELECT 
+  first_name,
+  last_name,
+  COALESCE(marital_status,'Unknown')
+FROM persons
 
 
 
